@@ -1,4 +1,5 @@
 import logging
+import os
 import random
 import tomllib
 from concurrent.futures import ThreadPoolExecutor
@@ -10,7 +11,7 @@ import httpx
 fake = faker.Faker()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-host = "http://127.0.0.1:8000"
+host = os.getenv("HOST", "http://localhost:8000")
 
 
 def get_config(conf_name: str = "bot-conf.toml") -> dict[str, int]:

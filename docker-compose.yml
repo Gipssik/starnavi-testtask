@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: social_network:latest
+    restart: always
+    ports:
+    - "8000:8000"
+    volumes:
+    - ./:/app
+    env_file:
+    - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: social_network-db
+      DB_PORT: 5432
+      DB_USER: social_network
+      DB_PASS: social_network
+      DB_NAME: social_network
+      PGPASSWORD: social_network
+
+  db:
+    image: postgres:13
+    hostname: social_network-db
+    environment:
+      POSTGRES_PASSWORD: "social_network"
+      POSTGRES_USER: "social_network"
+      POSTGRES_DB: "social_network"
+    volumes:
+    - social_network-db-data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "social_network"]
+      interval: 2s
+      timeout: 3s
+      retries: 40
+    ports:
+    - "9009:5432"
+
+volumes:
+  social_network-db-data:
+    name: social_network-db-data

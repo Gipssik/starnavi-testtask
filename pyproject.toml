@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["Gipssik <gissa.dmtr@gmail.com>"]
 readme = "README.md"
-packages = [{include = "starnavi_testtask"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
